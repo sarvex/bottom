@@ -2,7 +2,7 @@
 use std::cmp::min;
 use tui::{
     backend::Backend,
-    layout::{Alignment, Constraint, Direction, Layout, Rect},
+    layout::{Alignment, Constraint, Direction, Layout as tuiLayout, Rect},
     terminal::Frame,
     text::{Span, Spans, Text},
     widgets::{Block, Borders, Paragraph, Wrap},
@@ -24,7 +24,8 @@ pub trait KillDialog {
     );
 
     fn draw_dd_dialog<B: Backend>(
-        &self, f: &mut Frame<'_, B>, dd_text: Option<Text<'_>>, app_state: &mut AppState, draw_loc: Rect,
+        &self, f: &mut Frame<'_, B>, dd_text: Option<Text<'_>>, app_state: &mut AppState,
+        draw_loc: Rect,
     ) -> bool;
 }
 
@@ -82,7 +83,7 @@ impl KillDialog for Painter {
                 ),
             };
 
-            let button_layout = Layout::default()
+            let button_layout = tuiLayout::default()
                 .direction(Direction::Horizontal)
                 .constraints(
                     [
@@ -246,7 +247,7 @@ impl KillDialog for Painter {
                     ];
                 }
 
-                let button_rect = Layout::default()
+                let button_rect = tuiLayout::default()
                     .direction(Direction::Horizontal)
                     .margin(1)
                     .constraints(
@@ -268,7 +269,7 @@ impl KillDialog for Painter {
                     selected -= 2;
                 }
 
-                let layout = Layout::default()
+                let layout = tuiLayout::default()
                     .direction(Direction::Vertical)
                     .constraints(vec![Constraint::Min(1); button_rect.height as usize])
                     .split(button_rect);
@@ -318,7 +319,8 @@ impl KillDialog for Painter {
     }
 
     fn draw_dd_dialog<B: Backend>(
-        &self, f: &mut Frame<'_, B>, dd_text: Option<Text<'_>>, app_state: &mut AppState, draw_loc: Rect,
+        &self, f: &mut Frame<'_, B>, dd_text: Option<Text<'_>>, app_state: &mut AppState,
+        draw_loc: Rect,
     ) -> bool {
         if let Some(dd_text) = dd_text {
             let dd_title = if app_state.dd_err.is_some() {
@@ -374,7 +376,7 @@ impl KillDialog for Painter {
                 };
 
             // Now draw buttons if needed...
-            let split_draw_loc = Layout::default()
+            let split_draw_loc = tuiLayout::default()
                 .direction(Direction::Vertical)
                 .constraints(
                     if app_state.dd_err.is_some() {

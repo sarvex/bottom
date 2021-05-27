@@ -6,7 +6,7 @@ use crate::{
 
 use tui::{
     backend::Backend,
-    layout::{Constraint, Layout, Rect},
+    layout::{Constraint, Layout as tuiLayout, Rect},
     terminal::Frame,
     text::Span,
     text::Spans,
@@ -26,7 +26,7 @@ impl MemBasicWidget for Painter {
         let mem_data: &[(f64, f64)] = &app_state.canvas_data.mem_data;
         let swap_data: &[(f64, f64)] = &app_state.canvas_data.swap_data;
 
-        let margined_loc = Layout::default()
+        let margined_loc = tuiLayout::default()
             .constraints([Constraint::Percentage(100)])
             .horizontal_margin(1)
             .split(draw_loc);

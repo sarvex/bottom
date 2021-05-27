@@ -9,7 +9,7 @@ use crate::{
 
 use tui::{
     backend::Backend,
-    layout::{Constraint, Direction, Layout, Rect},
+    layout::{Constraint, Direction, Layout as tuiLayout, Rect},
     terminal::Frame,
     text::{Span, Spans},
     widgets::{Block, Paragraph},
@@ -57,7 +57,7 @@ impl CpuBasicWidget for Painter {
 
                 let chunk_vec =
                     vec![Constraint::Percentage((100 / REQUIRED_COLUMNS) as u16); REQUIRED_COLUMNS];
-                let chunks = Layout::default()
+                let chunks = tuiLayout::default()
                     .constraints(chunk_vec)
                     .direction(Direction::Horizontal)
                     .split(draw_loc);
@@ -179,7 +179,7 @@ impl CpuBasicWidget for Painter {
 
                         start_index += how_many_cpus;
 
-                        let margined_loc = Layout::default()
+                        let margined_loc = tuiLayout::default()
                             .direction(Direction::Horizontal)
                             .constraints([Constraint::Percentage(100)])
                             .horizontal_margin(1)

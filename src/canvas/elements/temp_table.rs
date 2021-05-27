@@ -1,7 +1,7 @@
 use once_cell::sync::Lazy;
 use tui::{
     backend::Backend,
-    layout::{Constraint, Direction, Layout, Rect},
+    layout::{Constraint, Direction, Layout as tuiLayout, Rect},
     terminal::Frame,
     text::Span,
     text::{Spans, Text},
@@ -29,15 +29,15 @@ static TEMP_HEADERS_LENS: Lazy<Vec<u16>> = Lazy::new(|| {
 
 pub trait TempTableWidget {
     fn draw_temp_table<B: Backend>(
-        &self, f: &mut Frame<'_, B>, app_state: &mut app::AppState, draw_loc: Rect, draw_border: bool,
-        widget_id: u64,
+        &self, f: &mut Frame<'_, B>, app_state: &mut app::AppState, draw_loc: Rect,
+        draw_border: bool, widget_id: u64,
     );
 }
 
 impl TempTableWidget for Painter {
     fn draw_temp_table<B: Backend>(
-        &self, f: &mut Frame<'_, B>, app_state: &mut app::AppState, draw_loc: Rect, draw_border: bool,
-        widget_id: u64,
+        &self, f: &mut Frame<'_, B>, app_state: &mut app::AppState, draw_loc: Rect,
+        draw_border: bool, widget_id: u64,
     ) {
         let recalculate_column_widths = app_state.should_get_widget_bounds();
         if let Some(temp_widget_state) = app_state.temp_state.widget_states.get_mut(&widget_id) {
@@ -221,7 +221,7 @@ impl TempTableWidget for Painter {
                 Block::default().borders(Borders::NONE)
             };
 
-            let margined_draw_loc = Layout::default()
+            let margined_draw_loc = tuiLayout::default()
                 .constraints([Constraint::Percentage(100)])
                 .horizontal_margin(if is_on_widget || draw_border { 0 } else { 1 })
                 .direction(Direction::Horizontal)

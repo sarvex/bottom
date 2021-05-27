@@ -15,7 +15,7 @@ use crate::{
 
 use tui::{
     backend::Backend,
-    layout::{Constraint, Direction, Layout, Rect},
+    layout::{Constraint, Direction, Layout as tuiLayout, Rect},
     symbols::Marker,
     terminal::Frame,
     text::Span,
@@ -52,7 +52,7 @@ impl NetworkGraphWidget for Painter {
         &self, f: &mut Frame<'_, B>, app_state: &mut AppState, draw_loc: Rect, widget_id: u64,
     ) {
         if app_state.app_config_fields.use_old_network_legend {
-            let network_chunk = Layout::default()
+            let network_chunk = tuiLayout::default()
                 .direction(Direction::Vertical)
                 .margin(0)
                 .constraints([

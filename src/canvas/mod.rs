@@ -3,17 +3,15 @@ use std::{collections::HashMap, str::FromStr};
 
 use tui::{
     backend::Backend,
-    layout::{Constraint, Direction, Layout, Rect},
+    layout::{Constraint, Direction, Layout as tuiLayout, Rect},
     text::{Span, Spans},
     widgets::Paragraph,
     Frame, Terminal,
 };
 
-// use ordered_float::OrderedFloat;
-
 use canvas_colours::*;
 use dialogs::*;
-use widgets::*;
+use elements::*;
 
 use crate::{
     app::{
@@ -32,7 +30,7 @@ use crate::{
 mod canvas_colours;
 mod dialogs;
 mod drawing_utils;
-mod widgets;
+mod elements;
 
 /// Point is of time, data
 type Point = (f64, f64);
@@ -289,7 +287,7 @@ impl Painter {
                 "Frozen, press 'f' to unfreeze",
                 self.colours.currently_selected_text_style,
             )),
-            Layout::default()
+            tuiLayout::default()
                 .horizontal_margin(1)
                 .constraints([Constraint::Length(1)])
                 .split(draw_loc)[0],
@@ -303,7 +301,7 @@ impl Painter {
 
         terminal.draw(|mut f| {
             let (terminal_size, frozen_draw_loc) = if app_state.is_frozen {
-                let split_loc = Layout::default()
+                let split_loc = tuiLayout::default()
                     .constraints([Constraint::Min(0), Constraint::Length(1)])
                     .split(f.size());
                 (split_loc[0], Some(split_loc[1]))
@@ -346,7 +344,7 @@ impl Painter {
             if app_state.help_dialog_state.is_showing_help {
                 let gen_help_len = GENERAL_HELP_TEXT.len() as u16 + 3;
                 let border_len = terminal_height.saturating_sub(gen_help_len) / 2;
-                let vertical_dialog_chunk = Layout::default()
+                let vertical_dialog_chunk = tuiLayout::default()
                     .direction(Direction::Vertical)
                     .constraints([
                         Constraint::Length(border_len),
@@ -355,7 +353,7 @@ impl Painter {
                     ])
                     .split(terminal_size);
 
-                let middle_dialog_chunk = Layout::default()
+                let middle_dialog_chunk = tuiLayout::default()
                     .direction(Direction::Horizontal)
                     .constraints(if terminal_width < 100 {
                         // TODO: [REFACTOR] The point we start changing size at currently hard-coded in.
@@ -429,7 +427,7 @@ impl Painter {
                 // };
 
                 let vertical_bordering = terminal_height.saturating_sub(text_height) / 2;
-                let vertical_dialog_chunk = Layout::default()
+                let vertical_dialog_chunk = tuiLayout::default()
                     .direction(Direction::Vertical)
                     .constraints([
                         Constraint::Length(vertical_bordering),
@@ -439,7 +437,7 @@ impl Painter {
                     .split(terminal_size);
 
                 let horizontal_bordering = terminal_width.saturating_sub(text_width) / 2;
-                let middle_dialog_chunk = Layout::default()
+                let middle_dialog_chunk = tuiLayout::default()
                     .direction(Direction::Horizontal)
                     .constraints([
                         Constraint::Length(horizontal_bordering),
@@ -456,7 +454,7 @@ impl Painter {
                     self.draw_frozen_indicator(&mut f, frozen_draw_loc);
                 }
 
-                let rect = Layout::default()
+                let rect = tuiLayout::default()
                     .margin(0)
                     .constraints([Constraint::Percentage(100)])
                     .split(terminal_size);
@@ -540,7 +538,7 @@ impl Painter {
                     }
                 };
 
-                let vertical_chunks = Layout::default()
+                let vertical_chunks = tuiLayout::default()
                     .direction(Direction::Vertical)
                     .margin(0)
                     .constraints([
@@ -551,7 +549,7 @@ impl Painter {
                     ])
                     .split(terminal_size);
 
-                let middle_chunks = Layout::default()
+                let middle_chunks = tuiLayout::default()
                     .direction(Direction::Horizontal)
                     .constraints([Constraint::Percentage(50), Constraint::Percentage(50)])
                     .split(vertical_chunks[1]);
@@ -614,7 +612,7 @@ impl Painter {
                 }
 
                 if self.derived_widget_draw_locs.is_empty() || app_state.is_force_redraw {
-                    let draw_locs = Layout::default()
+                    let draw_locs = tuiLayout::default()
                         .margin(0)
                         .constraints(self.row_constraints.as_ref())
                         .direction(Direction::Vertical)
@@ -636,7 +634,7 @@ impl Painter {
                             cols,
                         )| {
                             izip!(
-                                Layout::default()
+                                tuiLayout::default()
                                     .constraints(col_constraint.as_ref())
                                     .direction(Direction::Horizontal)
                                     .split(draw_loc)
@@ -647,7 +645,7 @@ impl Painter {
                             )
                             .map(|(split_loc, constraint, col_constraint_vec, col_rows)| {
                                 izip!(
-                                    Layout::default()
+                                    tuiLayout::default()
                                         .constraints(constraint.as_ref())
                                         .direction(Direction::Vertical)
                                         .split(split_loc)
@@ -657,7 +655,7 @@ impl Painter {
                                 )
                                 .map(|(draw_loc, col_row_constraint_vec, widgets)| {
                                     // Note that col_row_constraint_vec CONTAINS the widget constraints
-                                    let widget_draw_locs = Layout::default()
+                                    let widget_draw_locs = tuiLayout::default()
                                         .constraints(col_row_constraint_vec.as_ref())
                                         .direction(Direction::Horizontal)
                                         .split(draw_loc);

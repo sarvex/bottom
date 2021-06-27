@@ -48,6 +48,7 @@ pub mod constants;
 pub mod data_conversion;
 pub mod options;
 pub mod units;
+mod drawing;
 
 #[cfg(target_family = "windows")]
 pub type Pid = usize;

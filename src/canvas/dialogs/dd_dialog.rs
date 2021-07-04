@@ -24,8 +24,7 @@ pub trait KillDialog {
     );
 
     fn draw_dd_dialog<B: Backend>(
-        &self, f: &mut Frame<'_, B>, dd_text: Option<Text<'_>>, app_state: &mut AppState,
-        draw_loc: Rect,
+        &self, f: &mut Frame<'_, B>, dd_text: Option<Text<'_>>, app_state: &mut AppState, draw_loc: Rect,
     ) -> bool;
 }
 
@@ -319,8 +318,7 @@ impl KillDialog for Painter {
     }
 
     fn draw_dd_dialog<B: Backend>(
-        &self, f: &mut Frame<'_, B>, dd_text: Option<Text<'_>>, app_state: &mut AppState,
-        draw_loc: Rect,
+        &self, f: &mut Frame<'_, B>, dd_text: Option<Text<'_>>, app_state: &mut AppState, draw_loc: Rect,
     ) -> bool {
         if let Some(dd_text) = dd_text {
             let dd_title = if app_state.dd_err.is_some() {

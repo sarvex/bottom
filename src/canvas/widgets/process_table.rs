@@ -9,7 +9,7 @@ use crate::{
 
 use tui::{
     backend::Backend,
-    layout::{Alignment, Constraint, Direction, Layout as tuiLayout, Rect},
+    layout::{Alignment, Constraint, Direction, Layout, Rect},
     terminal::Frame,
     text::{Span, Spans, Text},
     widgets::{Block, Borders, Paragraph, Row, Table},
@@ -149,7 +149,7 @@ impl ProcessTableWidget for Painter {
 
             let mut proc_draw_loc = draw_loc;
             if process_widget_state.is_search_enabled() {
-                let processes_chunk = tuiLayout::default()
+                let processes_chunk = Layout::default()
                     .direction(Direction::Vertical)
                     .constraints([Constraint::Min(0), Constraint::Length(search_height)])
                     .split(draw_loc);
@@ -165,7 +165,7 @@ impl ProcessTableWidget for Painter {
             }
 
             if is_sort_open {
-                let processes_chunk = tuiLayout::default()
+                let processes_chunk = Layout::default()
                     .direction(Direction::Horizontal)
                     .constraints([Constraint::Length(header_len + 4), Constraint::Min(0)])
                     .split(proc_draw_loc);
@@ -197,7 +197,7 @@ impl ProcessTableWidget for Painter {
             }
 
             let is_on_widget = widget_id == app_state.current_widget.widget_id;
-            let margined_draw_loc = tuiLayout::default()
+            let margined_draw_loc = Layout::default()
                 .constraints([Constraint::Percentage(100)])
                 .horizontal_margin(if is_on_widget || draw_border { 0 } else { 1 })
                 .direction(Direction::Horizontal)
@@ -758,7 +758,7 @@ impl ProcessTableWidget for Painter {
                 Block::default().borders(Borders::NONE)
             };
 
-            let margined_draw_loc = tuiLayout::default()
+            let margined_draw_loc = Layout::default()
                 .constraints([Constraint::Percentage(100)])
                 .horizontal_margin(if is_on_widget || draw_border { 0 } else { 1 })
                 .direction(Direction::Horizontal)
@@ -875,7 +875,7 @@ impl ProcessTableWidget for Painter {
                 self.colours.text_style
             };
 
-            let margined_draw_loc = tuiLayout::default()
+            let margined_draw_loc = Layout::default()
                 .constraints([Constraint::Percentage(100)])
                 .horizontal_margin(if is_on_widget || draw_border { 0 } else { 1 })
                 .direction(Direction::Horizontal)

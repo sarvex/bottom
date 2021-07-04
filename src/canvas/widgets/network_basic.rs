@@ -2,7 +2,7 @@ use crate::{app::AppState, canvas::Painter, constants::*};
 
 use tui::{
     backend::Backend,
-    layout::{Constraint, Direction, Layout as tuiLayout, Rect},
+    layout::{Constraint, Direction, Layout, Rect},
     terminal::Frame,
     text::{Span, Spans},
     widgets::{Block, Paragraph},
@@ -18,18 +18,18 @@ impl NetworkBasicWidget for Painter {
     fn draw_basic_network<B: Backend>(
         &self, f: &mut Frame<'_, B>, app_state: &mut AppState, draw_loc: Rect, widget_id: u64,
     ) {
-        let divided_loc = tuiLayout::default()
+        let divided_loc = Layout::default()
             .direction(Direction::Horizontal)
             .constraints([Constraint::Percentage(50), Constraint::Percentage(50)])
             .split(draw_loc);
 
-        let net_loc = tuiLayout::default()
+        let net_loc = Layout::default()
             .direction(Direction::Horizontal)
             .constraints([Constraint::Percentage(100)])
             .horizontal_margin(1)
             .split(divided_loc[0]);
 
-        let total_loc = tuiLayout::default()
+        let total_loc = Layout::default()
             .direction(Direction::Horizontal)
             .constraints([Constraint::Percentage(100)])
             .horizontal_margin(1)

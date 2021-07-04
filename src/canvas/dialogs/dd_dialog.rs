@@ -2,7 +2,7 @@
 use std::cmp::min;
 use tui::{
     backend::Backend,
-    layout::{Alignment, Constraint, Direction, Layout as tuiLayout, Rect},
+    layout::{Alignment, Constraint, Direction, Layout, Rect},
     terminal::Frame,
     text::{Span, Spans, Text},
     widgets::{Block, Borders, Paragraph, Wrap},
@@ -83,7 +83,7 @@ impl KillDialog for Painter {
                 ),
             };
 
-            let button_layout = tuiLayout::default()
+            let button_layout = Layout::default()
                 .direction(Direction::Horizontal)
                 .constraints(
                     [
@@ -247,7 +247,7 @@ impl KillDialog for Painter {
                     ];
                 }
 
-                let button_rect = tuiLayout::default()
+                let button_rect = Layout::default()
                     .direction(Direction::Horizontal)
                     .margin(1)
                     .constraints(
@@ -269,7 +269,7 @@ impl KillDialog for Painter {
                     selected -= 2;
                 }
 
-                let layout = tuiLayout::default()
+                let layout = Layout::default()
                     .direction(Direction::Vertical)
                     .constraints(vec![Constraint::Min(1); button_rect.height as usize])
                     .split(button_rect);
@@ -376,7 +376,7 @@ impl KillDialog for Painter {
                 };
 
             // Now draw buttons if needed...
-            let split_draw_loc = tuiLayout::default()
+            let split_draw_loc = Layout::default()
                 .direction(Direction::Vertical)
                 .constraints(
                     if app_state.dd_err.is_some() {

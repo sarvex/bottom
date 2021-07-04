@@ -13,7 +13,7 @@ use crate::{
 
 use tui::{
     backend::Backend,
-    layout::{Constraint, Direction, Layout as tuiLayout, Rect},
+    layout::{Constraint, Direction, Layout, Rect},
     symbols::Marker,
     terminal::Frame,
     text::Span,
@@ -86,7 +86,7 @@ impl CpuGraphWidget for Painter {
                     )
                 };
 
-            let partitioned_draw_loc = tuiLayout::default()
+            let partitioned_draw_loc = Layout::default()
                 .margin(0)
                 .direction(Direction::Horizontal)
                 .constraints(constraints)

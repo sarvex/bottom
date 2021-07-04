@@ -6,7 +6,7 @@ use crate::{
 
 use tui::{
     backend::Backend,
-    layout::{Constraint, Direction, Layout as tuiLayout, Rect},
+    layout::{Constraint, Direction, Layout, Rect},
     terminal::Frame,
     text::{Span, Spans},
     widgets::{Block, Borders, Cell, Paragraph, Row, Table, Tabs},
@@ -82,7 +82,7 @@ impl BatteryDisplayWidget for Painter {
                 .map(|battery| &battery.battery_name)
                 .collect::<Vec<_>>();
 
-            let tab_draw_loc = tuiLayout::default()
+            let tab_draw_loc = Layout::default()
                 .constraints([
                     Constraint::Length(1),
                     Constraint::Length(2),
@@ -106,7 +106,7 @@ impl BatteryDisplayWidget for Painter {
                 tab_draw_loc,
             );
 
-            let margined_draw_loc = tuiLayout::default()
+            let margined_draw_loc = Layout::default()
                 .constraints([Constraint::Percentage(100)])
                 .horizontal_margin(if is_on_widget || draw_border { 0 } else { 1 })
                 .direction(Direction::Horizontal)
@@ -186,14 +186,13 @@ impl BatteryDisplayWidget for Painter {
                     let mut tab_click_locs: Vec<((u16, u16), (u16, u16))> = vec![];
                     for battery in battery_names {
                         // +1 because there's a space after the tab label.
-                        let width =
-                            unicode_width::UnicodeWidthStr::width(battery.as_str()) as u16 + 1;
+                        let width = unicode_width::UnicodeWidthStr::width(battery.as_str()) as u16;
                         tab_click_locs
                             .push(((current_x, current_y), (current_x + width, current_y)));
 
-                        // +2 because we want to go one space past to get to the '|', then one MORE
+                        // +4 because we want to go one space, then one space past to get to the '|', then 2 more
                         // to start at the blank space before the tab label.
-                        current_x = current_x + width + 2;
+                        current_x += width + 4;
                     }
                     battery_widget_state.tab_click_locs = Some(tab_click_locs);
                 }

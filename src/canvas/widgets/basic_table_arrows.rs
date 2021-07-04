@@ -5,20 +5,20 @@ use crate::{
 
 use tui::{
     backend::Backend,
-    layout::{Alignment, Constraint, Direction, Layout as tuiLayout, Rect},
+    layout::{Alignment, Constraint, Direction, Layout, Rect},
     terminal::Frame,
     text::Span,
     text::Spans,
     widgets::{Block, Paragraph},
 };
 
-pub trait ElementCarousel {
+pub trait BasicTableArrows {
     fn draw_basic_table_arrows<B: Backend>(
         &self, f: &mut Frame<'_, B>, app_state: &mut AppState, draw_loc: Rect, widget_id: u64,
     );
 }
 
-impl ElementCarousel for Painter {
+impl BasicTableArrows for Painter {
     fn draw_basic_table_arrows<B: Backend>(
         &self, f: &mut Frame<'_, B>, app_state: &mut AppState, draw_loc: Rect, widget_id: u64,
     ) {
@@ -114,7 +114,7 @@ impl ElementCarousel for Painter {
                 )),
             ];
 
-            let margined_draw_loc = tuiLayout::default()
+            let margined_draw_loc = Layout::default()
                 .direction(Direction::Horizontal)
                 .constraints([
                     Constraint::Length(2 + left_name.len() as u16),

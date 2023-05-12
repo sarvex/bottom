@@ -17,23 +17,23 @@ generated_ps1 = args[7]
 generated_ps1_dir = args[8]
 
 print("Generating Chocolatey package for:")
-print("     32-bit: %s" % deployment_file_path_32)
-print("     64-bit: %s" % deployment_file_path_64)
-print("     VERSION: %s" % version)
-print("     NUSPEC TEMPLATE: %s" % nuspec_template)
-print("     PS1 TEMPLATE: %s" % ps1_template)
-print("     GENERATED NUSPEC: %s" % generated_nuspec)
-print("     GENERATED PS1: %s" % generated_ps1)
-print("     GENERATED PS1 DIR: %s" % generated_ps1_dir)
+print(f"     32-bit: {deployment_file_path_32}")
+print(f"     64-bit: {deployment_file_path_64}")
+print(f"     VERSION: {version}")
+print(f"     NUSPEC TEMPLATE: {nuspec_template}")
+print(f"     PS1 TEMPLATE: {ps1_template}")
+print(f"     GENERATED NUSPEC: {generated_nuspec}")
+print(f"     GENERATED PS1: {generated_ps1}")
+print(f"     GENERATED PS1 DIR: {generated_ps1_dir}")
 
-with open(deployment_file_path_32, "rb") as deployment_file_32, open(
+with (open(deployment_file_path_32, "rb") as deployment_file_32, open(
     deployment_file_path_64, "rb"
-) as deployment_file_64:
+) as deployment_file_64):
     hash_32 = hashlib.sha1(deployment_file_32.read()).hexdigest()
     hash_64 = hashlib.sha1(deployment_file_64.read()).hexdigest()
 
-    print("Generated 32 hash: %s" % str(hash_32))
-    print("Generated 64 hash: %s" % str(hash_64))
+    print(f"Generated 32 hash: {str(hash_32)}")
+    print(f"Generated 64 hash: {str(hash_64)}")
 
     with open(nuspec_template, "r") as template_file:
         template = Template(template_file.read())

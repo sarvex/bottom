@@ -15,15 +15,15 @@ deployment_file_path_1 = args[5]
 deployment_file_path_2 = args[6] if len(args) > 6 else None
 deployment_file_path_3 = args[7] if len(args) > 7 else None
 
-print("Generating package for file: %s" % deployment_file_path_1)
+print(f"Generating package for file: {deployment_file_path_1}")
 if deployment_file_path_2 is not None:
-    print("and for file: %s" % deployment_file_path_2)
+    print(f"and for file: {deployment_file_path_2}")
 if deployment_file_path_3 is not None:
-    print("and for file: %s" % deployment_file_path_3)
-print("     VERSION: %s" % version)
-print("     TEMPLATE PATH: %s" % template_file_path)
-print("     SAVING AT: %s" % generated_file_path)
-print("     USING HASH TYPE: %s" % hash_type)
+    print(f"and for file: {deployment_file_path_3}")
+print(f"     VERSION: {version}")
+print(f"     TEMPLATE PATH: {template_file_path}")
+print(f"     SAVING AT: {generated_file_path}")
+print(f"     USING HASH TYPE: {hash_type}")
 
 
 def get_hash(deployment_file):
@@ -37,7 +37,7 @@ def get_hash(deployment_file):
         print('Unsupported hash format "%s".  Please use SHA512, SHA256, or SHA1.', hash_type)
         exit(1)
 
-    print("Generated hash: %s" % str(deployment_hash))
+    print(f"Generated hash: {str(deployment_hash)}")
     return deployment_hash
 
 
@@ -57,9 +57,7 @@ with open(deployment_file_path_1, "rb") as deployment_file_1:
     with open(template_file_path, "r") as template_file:
         template = Template(template_file.read())
 
-        substitutes = dict()
-        substitutes["version"] = version
-        substitutes["hash1"] = deployment_hash_1
+        substitutes = {"version": version, "hash1": deployment_hash_1}
         if deployment_hash_2 is not None:
             substitutes["hash2"] = deployment_hash_2
         if deployment_hash_3 is not None:
